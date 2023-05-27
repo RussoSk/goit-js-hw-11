@@ -2,10 +2,13 @@
 import './css/styles.css';
 import { fetchImages, PER_PAGE } from './fetchImages';
 import Notiflix from 'notiflix';
+import SimpleLightbox from "simplelightbox";
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const form = document.querySelector('.search-form');
 const gallery = document.querySelector('.gallery');
 const loadMoreBtn = document.querySelector('.load-more');
+const lightbox = new SimpleLightbox('.gallery a');
 
 let currentPage = 1;
 let currentSearchQuery = '';
@@ -46,6 +49,8 @@ form.addEventListener('submit', async function (event) {
 
     Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
 
+    lightbox.refresh(); // Оновлення галереї
+
   } catch (error) {
     console.error(error);
   }
@@ -53,7 +58,7 @@ form.addEventListener('submit', async function (event) {
 
 loadMoreBtn.addEventListener('click', async function () {
   try {
-    currentPage+=1;
+    currentPage += 1;
 
     const response = await fetchImages(currentSearchQuery, currentPage);
     const data = response.data;
@@ -67,6 +72,9 @@ loadMoreBtn.addEventListener('click', async function () {
     if (currentPage * PER_PAGE >= data.totalHits) {
       loadMoreBtn.style.display = 'none';
     }
+
+    lightbox.refresh(); // Оновлення галереї
+
   } catch (error) {
     console.error(error);
   }
@@ -75,7 +83,9 @@ loadMoreBtn.addEventListener('click', async function () {
 function createPhotoCardHTML(image) {
   const cardHTML = `
     <div class="photo-card">
-      <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
+      <a href="${image.largeImageURL}">
+        <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
+      </a>
       <div class="info">
         <p class="info-item"><b>Likes:</b> ${image.likes}</p>
         <p class="info-item"><b>Views:</b> ${image.views}</p>
@@ -86,11 +96,10 @@ function createPhotoCardHTML(image) {
   `;
   return cardHTML;
 }
-
 // Початково ховаємо кнопку "Load more"
 loadMoreBtn.style.display = 'none';
 
 // При першому запиті кнопка з'являється в інтерфейсі під галереєю
-form.addEventListener('submit', function () {
-  loadMoreBtn.style.display = 'block';
-});
+// form.addEventListener('submit', function () {
+//   loadMoreBtn.style.display = 'block';
+// });
