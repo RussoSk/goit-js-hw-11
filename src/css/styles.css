@@ -1,0 +1,54 @@
+/* Розмітка галереї */
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.photo-card {
+  width: calc(100% / 4 - 50px); 
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.photo-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.info {
+  display: flex;
+  margin-top: 10px;
+  width: 20%;
+}
+
+.info-item {
+  font-size: 13px;
+margin: 3px;
+
+}
+/* Кнопка "Load more" */
+.load-more {
+  display: none; 
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.search {
+  display: flex;
+  justify-content: center;
+  background-color: #007bff;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
