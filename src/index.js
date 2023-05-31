@@ -8,12 +8,15 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 const form = document.querySelector('.search-form');
 const gallery = document.querySelector('.gallery');
 const loadMoreBtn = document.querySelector('.load-more');
+
 const lightbox = new SimpleLightbox('.gallery a');
 
 let currentPage = 1;
 let currentSearchQuery = '';
 
-form.addEventListener('submit', async function (event) {
+form.addEventListener('submit', SearchImage);
+
+async function SearchImage(event) {
   event.preventDefault();
 
   const searchQuery = form.elements.searchQuery.value;
@@ -54,7 +57,7 @@ form.addEventListener('submit', async function (event) {
   } catch (error) {
     console.error(error);
   }
-});
+};
 
 loadMoreBtn.addEventListener('click', async function () {
   try {
@@ -63,7 +66,7 @@ loadMoreBtn.addEventListener('click', async function () {
     const response = await fetchImages(currentSearchQuery, currentPage);
     const data = response.data;
     const images = data.hits;
-
+    
     images.forEach((image) => {
       const cardHTML = createPhotoCardHTML(image);
       gallery.insertAdjacentHTML('beforeend', cardHTML);
